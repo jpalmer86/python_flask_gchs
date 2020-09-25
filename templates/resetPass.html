@@ -1,0 +1,36 @@
+{% include 'bootstrap.html' %}
+
+<form action="/reset/{{token}}" method="post">
+<div class="container my-5">
+    <div class="row">
+     <div class="col-sm-6">
+        <div class="form-group">
+          <label>New password</label>
+          <input type="password" id="pass1" class="form-control" placeholder="Enter new password" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+            <label>Confirm password</label>
+            <input type="password" id="pass2" class="form-control" placeholder="Re-enter new password" name="n_pass" required>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" onclick="return Validate()">Submit</button>
+</div>
+
+    <script type="text/javascript">
+    function Validate() {
+        var password = document.getElementById("pass1").value;
+        var confirmPassword = document.getElementById("pass2").value;
+        if (password != confirmPassword) {
+            alert("Passwords do not match! Try again.");
+            return false;
+        }
+        return true;
+    }
+    </script>
+
+</form>

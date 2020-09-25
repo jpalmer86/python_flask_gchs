@@ -1,0 +1,110 @@
+{% if session.user_type == 'admin' %}
+{% include 'bootstrap.html'  %}
+{% else %}
+{% extends 'base.html' %}
+{% endif %}
+
+
+{% block assets %}
+<style type="text/css">
+		.img{
+			border: 2px solid #ccc;
+			width: 50px;
+			height: 50px;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+
+		[data-href] {
+		    cursor: pointer;
+		}
+
+		@media screen and (max-width: 600px)
+		{
+
+			h2{
+				font-size: 20px;
+			}
+
+		}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container my-3">
+
+		{% include 'homepage/flash.html' %}
+		<h2 class="my-3 text-center">Members List</h2>
+		 <nav class="navbar navbar-expand-sm bg-dark">
+			 <div class="input-group">
+			  <div class="input-group-prepend">
+				<span class="input-group-text my-3"><i class="fa fa-search"></i></span>
+			  </div>
+			 <input class="form-control my-3" id="myInput" type="text" placeholder="Enter name or batch">
+			</div>
+		</nav>
+
+		<!-- Listing -->
+	<div class="table-responsive">
+		<table class="table table-hover my-3" id="myTable">
+	    <thead class="thead-light">
+	      <tr>
+	        <th>Photo</th>
+	        <th>Name</th>
+	        <th>Batch</th>
+			  {% if session.user_type == 'admin'%}
+			  <th>Remark</th>
+			  {% endif %}
+	      </tr>
+	    </thead>
+	    <tbody>
+
+	   {% for alumna in alumni %}
+	      <tr data-href="/profile/{{alumna.email}}">
+	        <td>
+				{% if alumna.p_img %}
+				<img class="img" src="{{ url_for('static', filename = alumna.p_img ) }}" alt="photo">
+				{% else %}
+				<img class="img" src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="image">
+				{% endif %}
+			</td>
+	        <td>{{ alumna.fname.capitalize() }} {{ alumna.lname.capitalize() }}</td>
+	        <td>{{ alumna.batch }}</td>
+			  {% if session.user_type == 'admin'%}
+			  	{% if not alumna.profession %}
+		  			<td><i class="fas fa-exclamation-triangle"></i></td>
+			  	{% endif %}
+			  {% endif %}
+	      </tr>
+	   {% endfor %}
+
+	  	</tbody>
+		</table>
+		</div>
+
+</div>
+	<!-- table search user -->
+	<script>
+	$(document).ready(function(){
+	  $("#myInput").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#myTable tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
+	</script>
+
+	<!-- table row link -->
+	<script>
+		$(document).ready(function($) {
+	    $('*[data-href]').on('click', function() {
+	        window.location = $(this).data("href");
+		    });
+		});
+
+	</script>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% include 'bootstrap.html' %}
+{% include 'homepage/preloader.html' %}
+{% include 'admin_nav.html' %}
+
+<h2 class="mb-4 text-center">Manage Homepage</h2>
+
+{% include 'homepage/flash.html' %}
+<div class="container">
+
+<!-- ============================= banner ==================================== -->
+
+<h3 class="mt-2">Banner</h3><hr>
+
+    {% for e in banner %}
+    <form action="/modify_banner" method="POST">
+    <div class="row my-3">
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="number" class="form-control" min="1" max="{{count}}" step="1" placeholder="Sequence" name="seq" value="{{e.seq}}" required >
+        </div>
+        <div class="col-sm py-2 my-auto d-block">
+            <img src="{{url_for('static', filename=e.img_thumb)}}" class="img-fluid rounded">
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="caption" class="form-control" placeholder="Enter caption" value="{{e.caption}}">
+		</div>
+
+        <div class="col-sm my-auto py-2 d-block">
+             <button type="submit" class="btn btn-primary" name="banner_id" value="{{e.id}}">Update</button>
+        </div>
+        <div class="col-sm my-auto py-2 d-block">
+            <a href="/delete_banner/{{e.id}}/{{e.img_name}}" class="btn btn-danger">Delete</a>
+        </div>
+        </form>
+    </div>
+<hr>
+
+    {% endfor %}
+
+<form action="/add_banner" method="post" enctype="multipart/form-data">
+    <h3 class="mt-5">Add New Banner</h3>
+
+    <div class="row my-3">
+        <div class="col-sm my-auto d-block">
+            <input type="file" name="image">
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="caption" class="form-control" placeholder="Enter caption" required>
+        </div>
+
+         <div class="col-sm my-auto py-2 d-block">
+            <button class="btn btn-primary" onclick="loading();">Add</button>
+        </div>
+    </div>
+</form>
+
+<!-- ============================= end_banner ==================================== -->
+
+
+<!-- ============================= about ==================================== -->
+<hr>
+<h3 class="mt-2">About School</h3>
+
+
+        <form action="/homepage_data/about" method="POST">
+
+            <textarea rows="5" class="form-control" name="about" placeholder="write about school here..">{% for i in info %}{{ i.about }}{% endfor %}</textarea>
+
+            <div class="col-sm my-auto py-2 d-block">
+                 <button type="submit" class="btn btn-primary" name="update_id" onclick="loading();">Submit</button>
+            </div>
+
+         </form>
+
+
+<!-- ============================= end_about ==================================== -->
+
+
+<!-- ============================= Contact Details ==================================== -->
+<hr>
+<h3 class="mt-2">Contact Details</h3>
+{% set _set = info.rewind() %}
+    {% for i in info %}
+    <form action="/homepage_data/address" method="POST">
+
+        <div class="row my-3">
+            <div class="col-sm py-2 my-auto d-block">
+
+                        <textarea rows="2" class="form-control" name="address" placeholder="School address..">{{i.address}}</textarea>
+
+            </div>
+            <div class="col-sm my-auto py-2 d-block">
+                 <button type="submit" class="btn btn-primary" onclick="loading();">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <form action="/homepage_data/contact" method="POST">
+        <div class="row my-3">
+            <div class="col-sm py-2 my-auto d-block">
+
+                        <input type="text" name="contact" class="form-control" placeholder="School contact number" value="{{i.contact}}" required>
+
+            </div>
+
+
+             <div class="col-sm my-auto py-2 d-block">
+                <button class="btn btn-primary" onclick="loading();">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <form action="/homepage_data/email" method="POST">
+        <div class="row my-3">
+
+            <div class="col-sm py-2 my-auto d-block">
+                <input type="text" name="email" class="form-control" placeholder="School email" value="{{i.email}}" required>
+            </div>
+
+
+             <div class="col-sm my-auto py-2 d-block">
+                <button class="btn btn-primary" onclick="loading();">Submit</button>
+            </div>
+
+        </div>
+     </form>
+
+{% endfor %}
+<!-- ============================= end_about ==================================== -->
+
+
+
+
+</div>

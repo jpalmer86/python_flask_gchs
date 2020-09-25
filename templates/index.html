@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block assets %}
+<!--
+	This template is made with the reference of w3-layouts under free institute/student account
+-->
+ 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" media="all" /> <!-- Style-CSS -->
+    <link href="{{ url_for('static', filename='css/easy-responsive-tabs.css' ) }}" rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flexslider.css') }}" type="text/css" media="screen" property="" /><!-- flexslider css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" /><!-- Calendar -->
+
+<!-- js-scripts -->
+
+	<!-- js -->
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+
+	<!-- //js -->
+
+<!-- for Updates -->
+	<script defer src="{{ url_for('static', filename='js/jquery.flexslider.js') }}"></script>
+	<script type="text/javascript">
+		$(window).load(function(){
+		  $('.flexslider').flexslider({
+			animation: "slide",
+			start: function(slider){
+			  $('body').removeClass('loading');
+			}
+		  });
+		});
+	</script>
+	<!-- //flexSlider -->
+
+{% endblock %}
+
+{%block content%}
+
+<!-- carousal -->
+
+
+<div>
+  <!-- The carousel -->
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+
+  <!-- Indicators -->
+
+  <ul class="carousel-indicators">
+	  {% for i in range(b_count) %}
+		<li data-target="#myCarousel" data-slide-to="{{i}}" {% if i==0 %} class="active {% endif %}"></li>
+	  {% endfor %}
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+	{% for b in banner %}
+    <div class="carousel-item {% if b.seq==1%} active {% endif %} ">
+
+		<picture>
+			<source srcset="{{ url_for('static', filename=b.img_thumb) }}" media="(max-width: 600px)" >
+			<img src="{{ url_for('static', filename=b.img) }}">
+		</picture>
+
+      <div class="carousel-caption">
+        <h3>{{b.caption}}</h3>
+      </div>
+
+    </div>
+	{% endfor %}
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
+
+</div>
+
+<!-- //carousal -->
+
+<!-- About us -->
+{% for i in info %}
+	{% if i.about %}
+	<div class="about-3 py-5"id="about">
+		<div class="container py-md-3">
+		<div class="success-head-all mb-3">
+		         <h3>Welcome</h3>
+		       </div>
+			<div class="d-flex">
+				<div class="about1">
+					<h4>ABOUT GARRISON CHILDREN HIGH SCHOOL</h4>
+					<p class="details"><i class="fas fa-quote-left"></i><br>{{i.about}}<br><i class="fas fa-quote-right"></i></p>
+
+				</div>
+				<div class="about2">
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	{% endif %}
+{% endfor %}
+	<!-- //About us -->
+
+
+	<!-- courses -->
+	<div class="stats">
+
+	<div class="container">
+		<div class="success-head-all mb-3">
+		     <h3 style="color: #fff;">Courses Offered</h3>
+		</div>
+		     <div class="row">
+			    <div class="col-sm-6">
+			     <p style="font-size: 2em; font-family: 'Roboto Slab', serif;">Primary School<br>(STD I-IV)</p>	<br>
+			    </div>
+			    <div class="col-sm-6">
+			     <p style="font-size: 2em;  font-family: 'Roboto Slab', serif;">High School<br>(STD V-X)</p>
+			    </div>
+			 </div>
+		</div>
+
+	</div>
+	<!-- //courses -->
+
+	<!-- Updates -->
+<section class="clients-main py-5" id="updates">
+		<div class="container py-md-3">
+		<div class="success-head-all mb-3">
+		         <h3> Updates </h3>
+		       </div>
+			<!-- Owl-Carousel -->
+			<div class="cli-ent">
+				<section class="slider">
+					<div class="flexslider">
+						<ul class="slides">
+							{% for u in updates %}
+							<li>
+								<div class="item g1">
+									<div class="success-dish-caption">
+										 <div class="row">
+												<div class="col-sm my-auto d-block">
+													{% if u.img %}
+												 		<img src="{{ url_for('static', filename=u.img) }}"><br>
+													{% else %}
+														<img src="{{ url_for('static', filename='images/school/whitelogo.png') }}"><br>
+													{% endif %}
+										    	</div>
+										    <div class="col-sm my-auto d-block">
+										     <h4>{{u.title}}</h4><br>
+										     <p class="text-center">{{u.desc}}</p>
+										    </div>
+										</div>
+
+									<div class="clearfix"></div>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</section>
+			</div>
+			<!--// Owl-Carousel -->
+		</div>
+</section>
+<!--// Updates -->
+
+<!-- footer -->
+<section class="path-footer path-footer-section py-5 " id="contact">
+{% set _set = info.rewind() %}
+	{% for i in info %}
+		<div class="container">
+			<h3 class="mb-5" style="color: #fff; text-align: center; font-family:'Times New Roman', serif;">CONTACT US</h3>
+				 <div class="row">
+				    <div class="col-sm-6">
+
+						<div class="mapouter"><iframe width="330" height="200" id="gmap_canvas" src="https://maps.google.com/maps?q=garrison%20children%20high%20school&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
+
+					</div>
+					<div class="col-sm-6 contact" style="color: #fff;">
+						<br>
+
+							<p><i class="fa fa-home"></i> {{i.address}}</p><br>
+
+							<a href="tel: +919888855331" style="color: #fff;"><i class="fa fa-phone"></i> {{i.contact}}</a><br><br>
+
+							<a href="mailto: contact.gchspune@gmail.com" style="color: #fff;"><i class="fa fa-envelope"></i> {{i.email}}</a><br>
+
+					</div>
+				</div>
+			<div class="success-copyright text-center">
+				<p class="mt-5">&copy; website made by Nilesh Verma | <a href="mailto: sayhellomr.nk@gmail.com"><i class="fa fa-envelope"></i> sayhellomr.nk@gmail.com</a></p>
+			</div>
+		</div>
+{% endfor %}
+</section>
+<!-- //footer -->
+
+<!-- caller
+<div class="caller text-center">
+	<a href="tel:+919888855331"><i class="fa fa-phone call" aria-hidden="true"></i></a>
+</div>
+//caller -->
+
+{%endblock%}

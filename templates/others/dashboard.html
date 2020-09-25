@@ -1,0 +1,36 @@
+{% include 'bootstrap.html' %}
+<style>
+    .circle{
+        border : 2px solid #000;
+        border-radius: 50%;
+
+    }
+</style>
+
+<div class="container-fluid">
+    <h1 class="text-center my-1 p-3 bg-light">Dashboard</h1>
+    <div class="row my-5">
+
+        <div class="col-sm text-center p-2">
+            <h1>{{members}}</h1>
+            <a href="/list" class="btn btn-light">Members</a>
+        </div>
+
+        <div class="col-sm text-center p-2">
+            <h1>{{non_updated}}</h1>
+            <a href="/list" class="btn btn-light">Non-updated Profiles</a>
+        </div>
+
+        <div class="col-sm text-center p-2">
+            <h1>{{updates}}</h1>
+            <a href="/updates" class="btn btn-light">Updates</a>
+        </div>
+
+        <div class="col-sm text-center p-2">
+            <h1>{{gallery}}</h1>
+            <a href="/gallery" target="_parent" class="btn btn-light">Gallery Photos</a>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,35 @@
+{% include 'bootstrap.html' %}
+
+<!-- animations -->
+<link href="{{ url_for('static', filename='css/mdb.min.css') }}" rel="stylesheet">
+<script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<body onload="setTimeout(function(){window.location = '/home';}, 1000)">
+
+ <div style="height: 100vh; background: #fff;">
+    <div class="flex-center flex-column">
+      <img class="animated zoomInDown slow" src="{{ url_for('static', filename='images/school/logo1.png') }}" width="300px"><br>
+      <h1 class="animated fadeIn delay-1s" style="font-family: sans-serif;">WELCOME</h1>
+      <p class="text-muted">Loading..</p>
+    </div>
+ </div>
+
+</body>
+</html>
+
+
+
+<!-- style for preloader
+<style type="text/css">
+ .loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgb(249,249,249);
+​
+</style>
+ -->

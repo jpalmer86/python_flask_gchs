@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block assets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/gallery.css') }}">
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid clearfix gallery-container">
+
+{% include 'homepage/flash.html' %}
+{% if session.username %}
+    <hr>
+    <form action="/gallery_photo_upload" method="POST" enctype = "multipart/form-data">
+        <div class="clearfix container text-center mt-5">
+            <strong class="float-left m-3">You can share/upload photos here.. </strong>
+            <input type="file" class="float-left m-3" name="photos" multiple required>
+            <button type="submit" class="btn btn-primary float-left m-3 " onclick="loading();"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+        </div>
+    </form>
+<hr>
+{% endif %}
+        <h1>Gallery</h1>
+
+<form action="/delete_photo" method="post">
+    <div class="tz-gallery">
+
+        <div class="row">
+    {% if session.username %}
+		{% for photo in pvt_photos %}
+
+            <div class="col-sm-3 col-md-3">
+                <div class="thumbnail">
+
+                    <a class="lightbox" href="{{ url_for('static', filename=photo.img) }}">
+                        <img src="{{ url_for('static', filename=photo.img_thumb) }}" alt="Photo">
+                    </a>
+                    <!--
+                    <p class="float-right p-2"> {{ moment().fromNow() }}</p>
+                    -->
+					<div class="caption">
+                    {% if session.username %}
+                        <p>Uploaded by <a href="/profile/{{photo.upd_by.user}}">{{photo.upd_by.name}} </a><br>
+                            <i>{{photo.date.strftime("%b %d, %Y")}}</i>
+                            {% if session.user_type == 'admin' or session.username == photo.upd_by.user %}
+                            <button type="submit" class="delete float-right" name="photo_id" value="{{photo.img_name}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                    </div>
+
+                </div>
+            </div>
+		{% endfor %}
+
+    {% else %}
+            {% for photo in photos %}
+
+            <div class="col-sm-3 col-md-3">
+                <div class="thumbnail">
+
+                    <a class="lightbox" href="{{ url_for('static', filename=photo.img) }}">
+                        <img src="{{ url_for('static', filename=photo.img_thumb) }}" alt="Photo">
+                    </a>
+                    <!--
+                    <p class="float-right p-2"> {{ moment().fromNow() }}</p>
+                    -->
+					<div class="caption">
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+    {% endif %}
+        </div>
+
+    </div>
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script>
+    baguetteBox.run('.tz-gallery');
+</script>
+
+{% endblock %}

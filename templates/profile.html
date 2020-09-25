@@ -1,0 +1,109 @@
+{% if session.user_type == 'admin' %}
+{% include 'bootstrap.html'  %}
+{% else %}
+{% extends 'base.html' %}
+{% endif %}
+
+{% block assets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- admin navbar -->
+    {% if session.user_type == 'admin' %}
+   		 {% include 'admin_nav.html' %}
+    {% endif %}
+
+
+	<div>
+		<img class="banner" src="{{ url_for('static', filename='images/school/s9.jpg') }} " alt="Cover Image">
+	</div>
+	<div>
+		{% if data.p_img %}
+		<img class="profile-img" src="{{ url_for('static', filename = data.p_img ) }}" alt="Profile Image">
+			{% else %}
+				<img class="profile-img" src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="image">
+		{% endif %}
+	</div>
+
+		<div class="profile-title">
+
+				<h1>{{data.fname.capitalize()}} {{data.lname.capitalize()}}</h1>
+				{% if data.batch %}
+					<p>Batch {{data.batch}}<p>
+				{% endif %}
+		</div>
+
+	<div class="container-fluid my-5 clearfix">
+		{% include 'homepage/flash.html' %}
+		{% if session.user_type == 'admin' or session.username == data.email %}
+		<a href="/update_profile/{{data.email}}" class="btn btn-primary m-2 float-right" style="white-space: nowrap;">Update Profile</a>
+		{% endif %}
+		{% if session.user_type == 'admin' %}
+			<a href="/delete/{{data.email}}" class="btn btn-danger m-2 float-right {% if data.email == session.username %}disabled{% endif %}" style="white-space: nowrap;" >Delete User</a>
+			<div class="dropdown">
+			  <button type="button" class="btn btn-dark m-2 float-right dropdown-toggle {% if data.email == session.username %}disabled{% endif %}" data-toggle="dropdown">
+				{{data.type}}
+			  </button>
+			  <div class="dropdown-menu">
+				  {% if data.type == 'alumni' %}
+					<a class="dropdown-item" href="/change_type/staff/{{data.email}}">Change to staff</a>
+					<a class="dropdown-item" href="/change_type/admin/{{data.email}}">Change to admin</a>
+				  {% elif data.type == 'staff' %}
+					<a class="dropdown-item" href="/change_type/admin/{{data.email}}">Change to admin</a>
+					<a class="dropdown-item" href="/change_type/alumni/{{data.email}}">Change to alumni</a>
+				  {% elif data.type == 'admin' %}
+					<a class="dropdown-item" href="/change_type/staff/{{data.email}}">Change to staff</a>
+					<a class="dropdown-item" href="/change_type/alumni/{{data.email}}">Change to alumni</a>
+				  {% endif %}
+			  </div>
+			</div>
+		</div>
+
+		{% endif %}
+		<div class="container-fluid">
+		<div class="row p-3" style="width: 100%;">
+			<div class="col-sm">
+				<h3>Personal Details</h3>
+				<p>
+					<div class="row">
+						<div class="col-sm"><strong>Email</strong></div>
+						<div class="col-sm">{{data.email}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm"><strong>Contact</strong></div>
+						<div class="col-sm">{{data.contact}}</div>
+					</div>
+				</p>
+			</div>
+			<div class="col-sm">
+				<h3>Professional Details</h3>
+				<p>
+						<div class="row	">
+							<div class="col-sm"><strong>Profession</strong></div>
+							<div class="col-sm">{{data.profession}}</div>
+						</div>
+						<div class="row">
+							<div class="col-sm"><strong>Company/Institute</strong></div>
+							<div class="col-sm">{{data.c_name}}</div>
+						</div>
+						<div class="row">
+							<div class="col-sm"><strong>Location</strong></div>
+							<div class="col-sm">{{data.loc}}</div>
+						</div>
+					{% if not data.profession%}
+						{% if session.user_type == 'admin' or session.username == data.email %}
+						<div class="alert alert-success">
+							<i class="fas fa-exclamation-circle text-danger"></i>
+							<strong>You have not updated your professional details yet!</strong>
+							<p>Please update it under update profile section.</p>
+						</div>
+						{% endif %}
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% include 'bootstrap.html' %}
+{% include 'homepage/preloader.html' %}
+<style>
+</style>
+{% include 'admin_nav.html' %}
+
+<div class="container my-3">
+    {% include 'homepage/flash.html' %}
+    <h3 class="mt-2">Current Updates</h3>
+    <hr>
+    {% for e in data %}
+    <form action="/modify_update" method="POST">
+    <div class="row my-3">
+        <div class="col-sm">
+            {% if e.img_name %}
+            <img src="{{url_for('static', filename=e.img)}}" class="img-fluid rounded">
+            {% endif %}
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="mtitle" class="form-control" placeholder="Enter title" value="{{e.title}}">
+		</div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <textarea rows="3" class="form-control" name="mdesc" placeholder="write something about update here..">{{e.desc}}</textarea>
+		</div>
+
+         <div class="col-sm my-auto py-2 d-block">
+             <button type="submit" class="btn btn-primary" name="update_id" value="{{e.id}}" onclick="loading();">Update</button>
+    </form>
+             {% if e.img_name %}
+                <a href="/delete_update/{{e.img_name}}/{{e.id}}" class="btn btn-danger" style="white-space: nowrap;">Delete</a>
+             {% else %}
+                <a href="/delete_update/no_img/{{e.id}}" class="btn btn-danger" style="white-space: nowrap;">Delete</a>
+             {% endif %}
+		</div>
+
+    </div>
+        <hr>
+    {% endfor %}
+
+<form action="/add_update" method="post" enctype="multipart/form-data">
+    <h3 class="mt-2">Add New Update</h3>
+
+    <div class="row my-3">
+        <div class="col-sm my-auto d-block">
+            <input type="file" name="image">
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="title" class="form-control" placeholder="Enter title" value="" required>
+        </div>
+        <div class="col-sm py-2 my-auto d-block">
+            <textarea rows="4"  class="form-control" name="desc" placeholder="write something about update here.."></textarea>
+		</div>
+         <div class="col-sm my-auto py-2 d-block">
+            <button class="btn btn-primary" value="" onclick="loading();">Add</button>
+        </div>
+    </div>
+
+</form>
+</div>

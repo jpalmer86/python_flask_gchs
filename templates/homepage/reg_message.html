@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="jumbotron container text-center mt-5">
+    <img src="{{url_for('static', filename ='images/school/logo1.png')}}" class="mx-auto d-block" style="height: 250px;">
+      <h1>Welcome Back</h1>
+      <h5>"Happy to see you again!"</h5>
+      <p class="mt-5">Congratulations! You have been successfully registred to the official website of Garrison High School. An email have been sent to your registered email address. Now you can proceed for login here...</p>
+      <a href="/login" class="btn btn-primary">Login</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% include 'bootstrap.html' %}
+<style>
+.img{
+        width: 200px;
+        object-fit: cover;
+	}
+
+</style>
+{% include 'admin_nav.html' %}
+<form action="" method="post">
+<div class="container my-3">
+    {% for e in data %}
+    <div class="row my-3" style="border-bottom : 1px solid #ddd;">
+
+        <div class="col-sm">
+            <img src="{{url_for('static', filename = 'images/c1.jpg')}}" class="img">
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="title" class="form-control" placeholder="Enter title" value="{{e.title}}">
+		</div>
+
+         <div class="col-sm my-auto py-2 d-block">
+            <button class="btn btn-primary" value="">Update</button>
+		</div>
+
+    </div>
+</div>
+    {% endfor %}
+</form>
+
+<form action="" method="post">
+    <h3 class="my-2">Add New One..</h3>
+
+    <div class="row my-3">
+        <div class="col-sm my-auto d-block"">
+            <input type="file" name="image" required>
+        </div>
+
+        <div class="col-sm py-2 my-auto d-block">
+            <input type="text" name="title" class="form-control" placeholder="Enter title" value="">
+        </div>
+
+         <div class="col-sm my-auto py-2 d-block">
+            <button class="btn btn-primary" value="">Add</button>
+        </div>
+    </div>
+
+</form>
